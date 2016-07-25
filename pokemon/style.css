@@ -1,0 +1,23 @@
+*{
+  margin:0px;
+  padding:0px;
+}
+#wrapper{
+  width:1000px;
+  display: inline-block;
+}
+#body{
+  width:700px;
+  display: inline-block;
+}
+#search{
+  width:285px;
+  height: 400px;
+  display: inline-block;
+  border:5px solid red;
+  vertical-align: top;
+}
+
+ul{
+  padding-left: 25px;
+}

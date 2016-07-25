@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>AJAX Notes!</title>
+  <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<!-- <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_functions.js') }}"></script> -->
+  <script type="text/javascript">
+    $(document).ready(function(){
+       $('#add_form').submit(function(){
+          alert("Ok add new note");
+        $.post('/notes/create', $(this).serialize(), function(res) {
+          console.log(res);
+          $('#notes').html(res);
+
+        });
+        $('#add_form')[0].reset();
+        return false;
+      });
+       $('#delete_form').submit(function(){
+          alert("Ok delete");
+          $.post("/notes/delete/{{ notes['id'] }}", $(this).serialize(), function(res) {
+            console.log(res);
+            $('#notes').html(res);
+          });
+          return false;
+      });
+       $('#update_form').submit(function(){
+          alert("Ok update");
+          $.post("/notes/update/{{ notes['id'] }}", $(this).serialize(), function(res) {
+            console.log(res);
+            $('#notes').html(res);
+          });
+          return false;
+      });
+    });
+  </script>
+</head>
+<body>
+	<div class="container-fluid" id="wrapper">
+		<div id="header">
+			<h1>Notes</h1>
+		</div>
+		<div id="notes">
+			{% for note in notes %}
+				<div class="notes">
+					<section>
+						<h2>{{ note['title'] }}</h2><br>
+						<form action="/notes/delete/{{ note['id'] }}" id="delete_form" method="post">
+							<input id="description_id" name="id" type="hidden">
+							<button>Delete Note</button>
+						</form><br>
+						<p>{{ note['description'] }}</p><br>
+						<form action="/notes/update/{{ note['id'] }}" id="update_form" method="post">
+							<input id="description_id" name="id" type="hidden">
+							<input id="title_update" name="title_update" placeholder="Update title...">
+							<textarea name="description_update" id="description_update" placeholder="Update note..."></textarea><br>
+							<button>Update</button>
+						</form>
+					</section>
+				</div>
+			{% endfor %}
+		</div>
+		<div id="add_note">
+			<h2>Add Note</h2><br>
+			<form action="/notes/create" method="post" id="add_form">
+				<input type="text" name="title" id="title" placeholder="Title..."><br>
+				<textarea id="add_description" name="add_description" placeholder="Add description..."></textarea><br>
+				<button id="btn_add_note" type="submit">Add note</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

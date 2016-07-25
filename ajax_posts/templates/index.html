@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>AJAX Post</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	 <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_functions.js') }}"></script>
+</head>
+<body>
+	<div class="container-fluid" id="wrapper">
+		<div class="row">
+				<h1>My Posts</h1>
+				{% with messages = get_flashed_messages(with_categories=true) %}
+				    {% if messages %}
+				    	<ul class="flashes">
+					      	{% for category, message in messages %}
+					        	{% if category == 'error' %}
+					     			<p class="red">{{ message }}</p>
+					     		{% elif category == 'success' %}
+					     			<p class="green">{{ message }}</p>
+					     		{% endif %}
+					      	{% endfor %}
+				      	</ul>
+				    {% endif %}
+				{% endwith %}
+		</div>
+		<div id="notes">
+			{% for quote in quotes %}
+				<div class="notes">
+					<p>{{ note['note'] }}</p>
+				</div>
+			{% endfor %}
+		</div>
+		<div class="row" id="form_holder">
+				<h3>Add a note:</h3>
+				<form action="/posts/create" method="post">
+					<textarea name="get_note"></textarea><br>
+					<button class="btn btn-inverted" type="submit">Post It!</button>
+				</form>
+		</div>
+	</div>
+</body>
+</html>
